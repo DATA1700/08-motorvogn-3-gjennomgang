@@ -1,4 +1,5 @@
 $(() => {
+    $.ajaxSetup({async:true});
     $("#register").click(() => {
         const ssn = $("#ssn");
         const name = $("#name");
@@ -33,9 +34,13 @@ $(() => {
     $("#deleteAll").click(() => {
         $.ajax("/api", {
             type: "DELETE",
-            success: () => fetchRegistrations(),
+            success: () => {
+                console.log("inni i click")
+                fetchRegistrations()
+            },
             error: (jqXhr, textStatus, errorMessage) => console.log(errorMessage)
         })
+        console.log("Etter click")
     });
 
     formatBrandInput();
@@ -45,7 +50,13 @@ $(() => {
     fetchRegistrations();
 })
 
-const fetchRegistrations = () => $.get("/api/registrations", list => formatList(list))
+const fetchRegistrations = () => {
+    $.get("/api/registrations", list => {
+    formatList(list)
+    console.log("inne i fetchreg")
+})
+  console.log("etter fetchreg")
+}
 
 const formatList = list => {
     let msg = "";
